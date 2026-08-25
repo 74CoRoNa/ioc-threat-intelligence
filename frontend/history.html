@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Review stored CyberIP Analyzer investigations.">
+    <title>Investigation History · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="identity" href="/"><span>IOC</span> Threat Intelligence</a>
+      <nav aria-label="Main navigation"><a href="/">Analyze</a><a href="/domain.html">Domain</a><a href="/subnet.html">Subnet</a><a href="/ioc.html">Log Extract</a><a aria-current="page" href="/history.html">History</a><a href="/dashboard.html">Dashboard</a></nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero hero--compact">
+        <p class="eyebrow">Stored records</p>
+        <h1>Investigation history</h1>
+        <p class="hero-copy">Filter stored investigations and reopen the evidence behind each one.</p>
+      </section>
+
+      <form id="history-filters" class="filter-bar">
+        <label>
+          <span>Search target</span>
+          <input name="search" type="search" maxlength="256" placeholder="IP, domain, or URL">
+        </label>
+        <label>
+          <span>Type</span>
+          <select name="target_type">
+            <option value="">All types</option>
+            <option value="domain">Domain</option>
+            <option value="url">URL</option>
+            <option value="dns">DNS</option>
+          </select>
+        </label>
+        <label>
+          <span>Verdict</span>
+          <select name="verdict">
+            <option value="">All verdicts</option>
+            <option value="LOW">Low</option>
+            <option value="MEDIUM">Medium</option>
+            <option value="HIGH">High</option>
+            <option value="CRITICAL">Critical</option>
+          </select>
+        </label>
+        <button type="submit">Apply Filters</button>
+      </form>
+
+      <section id="feedback" aria-live="assertive"></section>
+      <section class="table-card" aria-labelledby="history-title">
+        <div class="table-heading">
+          <h2 id="history-title">Stored investigations</h2>
+          <span id="history-count" class="status-value"></span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th>Target</th>
+                <th>Type</th>
+                <th>Time</th>
+                <th>Risk</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="history-rows"></tbody>
+          </table>
+        </div>
+        <div id="pagination" class="pagination"></div>
+      </section>
+
+      <section id="investigation-detail" class="detail-panel" hidden>
+        <div class="table-heading">
+          <h2>Stored result</h2>
+          <button id="close-detail" class="secondary-button" type="button">Close</button>
+        </div>
+        <pre id="detail-json"></pre>
+      </section>
+    </main>
+
+    <script type="module" src="/js/history.js"></script>
+  </body>
+</html>

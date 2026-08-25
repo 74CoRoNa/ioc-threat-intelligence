@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Multi-source IOC investigation across VirusTotal, AbuseIPDB, ThreatFox, and URLhaus.">
+    <title>Analyze · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="identity" href="/"><span>IOC</span> Threat Intelligence</a>
+      <nav aria-label="Main navigation">
+        <a aria-current="page" href="/">Analyze</a>
+        <a href="/domain.html">Domain</a>
+        <a href="/subnet.html">Subnet</a>
+        <a href="/ioc.html">Log Extract</a>
+        <a href="/history.html">History</a>
+        <a href="/dashboard.html">Dashboard</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro">
+        <p class="kicker">Multi-source investigation</p>
+        <h1>Analyze an indicator</h1>
+        <p>
+          Queries the applicable providers, correlates independent findings, and stores a
+          reproducible record.
+        </p>
+      </section>
+
+      <form id="ioc-form" class="query-panel">
+        <label for="ioc-value">Indicator of compromise</label>
+        <div class="query-row">
+          <input
+            id="ioc-value"
+            name="value"
+            maxlength="4096"
+            autocomplete="off"
+            spellcheck="false"
+            placeholder="IP address, domain, URL, or file hash"
+            required
+          >
+          <button type="submit">Analyze</button>
+        </div>
+        <div class="chip-row" style="margin-top:10px">
+          <span class="chip chip--plain">IPv4</span>
+          <span class="chip chip--plain">IPv6</span>
+          <span class="chip chip--plain">IP:port</span>
+          <span class="chip chip--plain">Domain</span>
+          <span class="chip chip--plain">URL</span>
+          <span class="chip chip--plain">MD5</span>
+          <span class="chip chip--plain">SHA-1</span>
+          <span class="chip chip--plain">SHA-256</span>
+        </div>
+      </form>
+
+      <section id="provider-progress" class="provider-progress" aria-label="Provider status">
+        <div data-provider="virustotal"><i></i><strong>VirusTotal</strong><small>Waiting</small></div>
+        <div data-provider="abuseipdb"><i></i><strong>AbuseIPDB</strong><small>Waiting</small></div>
+        <div data-provider="threatfox"><i></i><strong>ThreatFox</strong><small>Waiting</small></div>
+        <div data-provider="urlhaus"><i></i><strong>URLhaus</strong><small>Waiting</small></div>
+      </section>
+
+      <section id="feedback" class="feedback" aria-live="assertive"></section>
+
+      <section id="report" class="report" hidden>
+        <header class="case-header">
+          <div>
+            <p class="kicker">Investigation result</p>
+            <h2 id="case-ioc"></h2>
+          </div>
+          <dl>
+            <div><dt>Type</dt><dd id="case-type"></dd></div>
+            <div><dt>Analyzed</dt><dd id="case-time"></dd></div>
+            <div><dt>Status</dt><dd id="case-status"></dd></div>
+          </dl>
+        </header>
+
+        <section class="risk-summary">
+          <div class="score-block"><span id="risk-score">0</span><small>/100</small></div>
+          <div>
+            <div class="chip-row" id="risk-chips"></div>
+            <h2 id="risk-severity"></h2>
+            <strong class="risk-verdict" id="risk-verdict"></strong>
+          </div>
+          <div class="risk-meter"><span id="risk-fill"></span></div>
+        </section>
+
+        <section class="report-section" style="margin-top:12px">
+          <p class="eyebrow">Source evidence</p>
+          <h2>Threat intelligence providers</h2>
+          <div id="provider-results" class="provider-grid"></div>
+        </section>
+
+        <div class="assessment-grid">
+          <article class="report-section">
+            <p class="eyebrow">Correlation</p>
+            <h2>How the findings relate</h2>
+            <p id="correlation" style="margin-top:10px"></p>
+          </article>
+          <article class="report-section">
+            <p class="eyebrow">Scoring evidence</p>
+            <h2>Why this score was assigned</h2>
+            <ol id="evidence-list" class="evidence-list"></ol>
+          </article>
+        </div>
+
+        <section class="report-section analyst-note">
+          <p class="eyebrow">Analyst guidance</p>
+          <h2>Evidence-led next steps</h2>
+          <p style="margin-top:10px">
+            Search the indicator across firewall, proxy, DNS, and endpoint telemetry.
+            Identify affected internal hosts and validate the provider evidence before
+            blocking or containment.
+          </p>
+          <p class="limitation">
+            A missing provider match is not proof that an indicator is safe. Provider
+            coverage, freshness, quotas, and availability all limit this assessment.
+          </p>
+        </section>
+
+        <a id="full-report" class="report-link" href="#">Open stored investigation report</a>
+      </section>
+    </main>
+
+    <script type="module" src="/js/app.js"></script>
+  </body>
+</html>

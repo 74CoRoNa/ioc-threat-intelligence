@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Safely inspect domains, URLs, and DNS records.">
+    <title>Domain & URL Analyzer · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="identity" href="/"><span>IOC</span> Threat Intelligence</a>
+      <nav aria-label="Main navigation"><a href="/">Analyze</a><a aria-current="page" href="/domain.html">Domain</a><a href="/subnet.html">Subnet</a><a href="/ioc.html">Log Extract</a><a href="/history.html">History</a><a href="/dashboard.html">Dashboard</a></nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero">
+        <p class="eyebrow">Passive inspection</p>
+        <h1>Domain and URL</h1>
+        <p class="hero-copy">Analyze domains and HTTP URLs. URL content is never downloaded or executed.</p>
+      </section>
+
+      <form id="target-form" class="analysis-form">
+        <label for="analysis-target">Domain or URL</label>
+        <div class="input-row">
+          <input
+            id="analysis-target"
+            name="target"
+            type="text"
+            maxlength="4096"
+            placeholder="example.com or https://example.com/login"
+            autocomplete="off"
+            required
+          >
+          <button type="submit">Analyze Target</button>
+        </div>
+        <p class="field-hint">Defanged values such as hxxps://example[.]com are supported.</p>
+      </form>
+
+      <section id="feedback" aria-live="assertive"></section>
+      <section id="results" class="result-grid" aria-live="polite"></section>
+    </main>
+
+    <script type="module" src="/js/domain.js"></script>
+  </body>
+</html>

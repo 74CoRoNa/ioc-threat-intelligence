@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Calculate IPv4 and IPv6 CIDR networks.">
+    <title>Subnet Calculator · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="identity" href="/"><span>IOC</span> Threat Intelligence</a>
+      <nav aria-label="Main navigation"><a href="/">Analyze</a><a href="/domain.html">Domain</a><a aria-current="page" href="/subnet.html">Subnet</a><a href="/ioc.html">Log Extract</a><a href="/history.html">History</a><a href="/dashboard.html">Dashboard</a></nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero">
+        <p class="eyebrow">Offline calculation</p>
+        <h1>Subnet calculator</h1>
+        <p class="hero-copy">Calculate the network range, masks, broadcast address, and host capacity without an external lookup.</p>
+      </section>
+
+      <form id="subnet-form" class="analysis-form">
+        <label for="subnet-target">IP address with CIDR prefix</label>
+        <div class="input-row">
+          <input
+            id="subnet-target"
+            name="ip_cidr"
+            type="text"
+            maxlength="256"
+            placeholder="192.168.10.25/24"
+            autocomplete="off"
+            required
+          >
+          <button type="submit">Calculate</button>
+        </div>
+        <p class="field-hint">Supports every valid IPv4 and IPv6 prefix, including /31 and /32.</p>
+      </form>
+
+      <section id="feedback" aria-live="assertive"></section>
+      <section id="results" class="result-grid" aria-live="polite"></section>
+    </main>
+
+    <script type="module" src="/js/subnet.js"></script>
+  </body>
+</html>
+

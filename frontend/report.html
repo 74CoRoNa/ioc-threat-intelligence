@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Investigation Report · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar"><a class="identity" href="/"><span>IOC</span> Threat Intelligence</a><nav aria-label="Main navigation"><a href="/">Analyze</a><a href="/domain.html">Domain</a><a href="/subnet.html">Subnet</a><a href="/ioc.html">Log Extract</a><a href="/history.html">History</a><a href="/dashboard.html">Dashboard</a></nav></header>
+    <main class="page-shell">
+      <section class="hero hero--compact"><p class="eyebrow">Stored evidence</p><h1 id="report-title">Loading stored evidence…</h1></section>
+      <section id="feedback" aria-live="assertive"></section>
+      <div class="form-actions report-actions"><button id="copy-report" class="secondary-button" type="button">Copy Markdown</button><button id="download-report" type="button">Download .md</button><button id="print-report" class="secondary-button" type="button">Print / Save PDF</button></div>
+      <article id="report-preview" class="detail-panel report-preview"></article>
+    </main>
+    <script type="module" src="/js/report.js"></script>
+  </body>
+</html>

@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Extract and analyze indicators from security logs.">
+    <title>IOC Extractor · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="identity" href="/"><span>IOC</span> Threat Intelligence</a>
+      <nav aria-label="Main navigation"><a href="/">Analyze</a><a href="/domain.html">Domain</a><a href="/subnet.html">Subnet</a><a aria-current="page" href="/ioc.html">Log Extract</a><a href="/history.html">History</a><a href="/dashboard.html">Dashboard</a></nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="hero hero--compact">
+        <p class="eyebrow">Bulk intake</p>
+        <h1>Log extraction</h1>
+        <p class="hero-copy">Paste log text to refang and deduplicate indicators, then analyze all or a selected subset.</p>
+      </section>
+
+      <form id="log-form" class="analysis-form analysis-form--wide">
+        <label for="log-text">Log or incident text</label>
+        <textarea id="log-text" name="text" maxlength="200000" rows="12" placeholder="Failed login from 185.220.101.4&#10;Connection to hxxps://evil[.]example" required></textarea>
+        <div class="form-actions">
+          <button type="submit">Extract IOCs</button>
+        </div>
+      </form>
+
+      <section id="feedback" aria-live="assertive"></section>
+      <section id="ioc-panel" class="table-card" hidden>
+        <div class="table-heading">
+          <div>
+            <p class="eyebrow">Extracted indicators</p>
+            <h2 id="ioc-count"></h2>
+          </div>
+          <div class="form-actions">
+            <button id="analyze-selected" class="secondary-button" type="button">Analyze Selected</button>
+            <button id="analyze-all" type="button">Analyze All</button>
+          </div>
+        </div>
+        <p id="batch-progress" class="status-value" role="status"></p>
+        <div class="table-scroll">
+          <table>
+            <thead><tr><th>Select</th><th>Indicator</th><th>Type</th><th>Count</th><th>Context</th><th>Risk</th><th>Status</th></tr></thead>
+            <tbody id="ioc-rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="/js/ioc.js"></script>
+  </body>
+</html>

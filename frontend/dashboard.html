@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dashboard · IOC Threat Intelligence</title>
+    <link rel="stylesheet" href="/css/app.css">
+  </head>
+  <body>
+    <header class="topbar"><a class="identity" href="/"><span>IOC</span> Threat Intelligence</a><nav aria-label="Main navigation"><a href="/">Analyze</a><a href="/domain.html">Domain</a><a href="/subnet.html">Subnet</a><a href="/ioc.html">Log Extract</a><a href="/history.html">History</a><a aria-current="page" href="/dashboard.html">Dashboard</a></nav></header>
+    <main class="page-shell">
+      <section class="hero hero--compact"><p class="eyebrow">Overview</p><h1>Dashboard</h1><p class="hero-copy">Stored investigation activity and risk distribution.</p></section>
+      <section id="feedback" aria-live="assertive"></section>
+      <section id="stat-tiles" class="stat-grid"></section>
+      <section class="dashboard-grid">
+        <article class="table-card"><div class="table-heading"><h2>Risk distribution</h2><span class="status-value">Stored investigations</span></div><div id="risk-bars" class="risk-bars"></div></article>
+        <article class="table-card"><div class="table-heading"><h2>Seven-day volume</h2><span class="status-value">Investigations per day</span></div><svg id="trend-chart" class="trend-chart" viewBox="0 0 640 200" role="img" aria-label="Investigation volume over the last seven days"></svg><details id="trend-table" class="chart-table"><summary>Show values</summary></details></article>
+      </section>
+      <section class="dashboard-grid">
+        <article class="table-card"><div class="table-heading"><h2>Recent investigations</h2></div><div id="recent-list"></div></article>
+        <article class="table-card"><div class="table-heading"><h2>Top IOCs</h2></div><div id="top-iocs"></div></article>
+      </section>
+    </main>
+    <script type="module" src="/js/dashboard.js"></script>
+  </body>
+</html>

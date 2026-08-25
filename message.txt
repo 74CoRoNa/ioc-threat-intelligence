@@ -1,0 +1,531 @@
+لو هتستخدم AI عشان يبنيه، **ما تديهوش Prompt واحد ضخم وتقول اعمل كل حاجة**؛ غالبًا هيطلع مشروع شكله حلو لكن مليان bugs. الأفضل تخليه يبنيه على مراحل.
+
+لكن لو عايز **Master Prompt** يبدأ منه المشروع كامل، استخدم ده:
+
+```text id="7c4nq"
+أريد منك بناء مشروع CyberOps كامل باسم:
+
+CyberIP Analyzer
+
+فكرة المشروع:
+أداة Mini SOC Investigation / Threat Intelligence تساعد محلل الأمن السيبراني على تحليل IP Address أو Domain أو URL أو مجموعة IOCs واستخراج المعلومات الأمنية والشبكية عنها، ثم إعطاء Risk Assessment مبني على الأدلة.
+
+الهدف:
+المشروع تعليمي ومخصص لـ CyberOps/SOC، ويجب أن يكون قابلًا للتشغيل محليًا وشرح كل جزء منه في مناقشة مشروع.
+
+TECH STACK:
+- Backend: Python + FastAPI
+- Frontend: HTML + CSS + JavaScript في النسخة الأولى
+- Database: SQLite
+- API communication: httpx
+- DNS: dnspython
+- IP/network calculations: Python ipaddress
+- Environment variables: .env
+- Testing: pytest
+
+لا تستخدم React أو PostgreSQL أو Redis في النسخة الأولى إلا إذا كان هناك سبب واضح.
+ركز على أن يكون المشروع مفهومًا وقابلًا للصيانة.
+
+CORE FEATURES:
+
+1. IP ANALYZER
+المستخدم يدخل IPv4 أو IPv6.
+
+اعرض:
+- IP address
+- IPv4/IPv6
+- Public/Private
+- Legacy IP Class: A/B/C عند IPv4 فقط
+- CIDR
+- Subnet Mask
+- Network ID
+- First Usable Host
+- Last Usable Host
+- Broadcast
+- Total addresses
+- Usable hosts
+- Reverse DNS / PTR
+- Country
+- ASN
+- ISP/Organization
+
+استخدم Python ipaddress للحسابات بدل كتابة الحسابات يدويًا.
+
+مهم:
+لا تعتمد على Class A/B/C في حساب الـnetwork.
+اعتمد على CIDR.
+Class A/B/C مجرد معلومة Legacy.
+
+2. SUBNET CALCULATOR
+واجهة مستقلة تسمح للمستخدم بإدخال:
+
+IP/CIDR
+
+مثال:
+192.168.10.25/24
+
+وتعرض:
+Network
+Subnet Mask
+Wildcard Mask
+First Host
+Last Host
+Broadcast
+Total Addresses
+Usable Hosts
+IP Class
+
+ويجب دعم:
+ /8
+ /16
+ /24
+ /25
+ /26
+ /27
+ /28
+ /29
+ /30
+وأي CIDR صالح.
+
+3. THREAT INTELLIGENCE
+
+Integrate with:
+- VirusTotal API
+- AbuseIPDB API
+
+API keys يجب أن تكون في .env فقط.
+
+لا تضع API keys داخل source code.
+
+إذا لم توجد API key:
+- لا ينهار البرنامج.
+- يعرض "API key not configured".
+- تستمر باقي التحليلات.
+
+VirusTotal:
+استرجع المعلومات المتاحة عن IP/domain/URL.
+اعرض:
+- malicious
+- suspicious
+- harmless
+- undetected
+- reputation
+- detection ratio
+- analysis date إن توفرت
+
+مثال:
+5 / 90 engines detected
+
+لكن لا تقل:
+"90 engines confirmed the IP is clean"
+
+استخدم مصطلح:
+"90 security engines reported results"
+
+AbuseIPDB:
+اعرض:
+- abuse confidence score
+- total reports
+- country
+- ISP
+- domain إن وجد
+- last reported date
+- categories إن توفرت
+
+مهم:
+Abuse Confidence Score لا يعني احتمال أن الشخص Hacker.
+هو مؤشر مبني على تقارير AbuseIPDB.
+
+4. DNS ANALYZER
+
+عند إدخال Domain:
+استخرج:
+- A
+- AAAA
+- MX
+- NS
+- TXT
+- CNAME
+
+وعند إدخال IP:
+اعمل Reverse DNS / PTR lookup.
+
+اعرض النتائج بطريقة واضحة.
+
+5. DOMAIN / URL ANALYZER
+
+المستخدم يستطيع إدخال:
+example.com
+أو
+https://example.com/login
+
+اعمل:
+- URL parsing
+- Domain extraction
+- Scheme
+- Host
+- Port
+- Path
+- Query parameters
+- DNS resolution
+- IP addresses
+- HTTPS detection
+- TLS certificate information إن أمكن بشكل آمن
+- Redirect chain بشكل آمن
+- VirusTotal URL/domain reputation إذا كان API يدعم ذلك
+
+لا تقم بتحميل أو تنفيذ محتوى الموقع.
+
+6. IOC EXTRACTOR
+
+أضف صفحة يستطيع المستخدم فيها لصق Log مثل:
+
+Failed login from 185.x.x.x
+Connection to evil-domain.com
+Hash: abc123...
+
+استخرج تلقائيًا:
+- IPv4
+- IPv6
+- Domains
+- URLs
+- MD5
+- SHA1
+- SHA256
+
+اعرض قائمة IOCs.
+
+بعد ذلك يستطيع المستخدم اختيار:
+"Analyze All"
+
+والبرنامج يحلل كل IOC.
+
+7. RISK ASSESSMENT ENGINE
+
+أنشئ Risk Engine مستقل.
+
+لا تعتمد على مصدر واحد.
+
+يجب أن يجمع الأدلة من:
+- VirusTotal
+- AbuseIPDB
+- DNS
+- ASN/ISP
+- Reverse DNS
+- Other available intelligence
+
+ويحسب Risk Score من 0 إلى 100.
+
+Categories:
+
+0-20:
+LOW
+
+21-50:
+MEDIUM
+
+51-75:
+HIGH
+
+76-100:
+CRITICAL
+
+مثال scoring فقط، لا تعتبره حقيقة ثابتة:
+
+VirusTotal malicious detections:
+0 → 0 points
+1-2 → +15
+3-5 → +30
+6+ → +40
+
+AbuseIPDB:
+0-20 → 0
+21-50 → +10
+51-75 → +20
+76-100 → +30
+
+Additional evidence:
+Suspicious/malicious reports → additional points
+
+يجب منع duplicate scoring لنفس الدليل.
+
+ويجب أن يعرض البرنامج:
+WHY the score was generated.
+
+مثال:
+
+Risk Score: 78/100
+Verdict: HIGH
+
+Evidence:
+- VirusTotal: 5 malicious detections
+- AbuseIPDB: 82 confidence score
+- 143 abuse reports
+- Suspicious historical activity
+
+لا تقل:
+"This IP is definitely malicious."
+
+استخدم:
+"High risk based on available intelligence."
+
+8. INVESTIGATION REPORT
+
+بعد انتهاء التحليل، وفر زر:
+Generate Report
+
+التقرير يحتوي:
+
+Target
+Timestamp
+Target Type
+IP information
+Network information
+DNS information
+Threat Intelligence
+IOC information
+Risk Score
+Risk Level
+Evidence
+Recommendations
+
+Recommendations مثال:
+- Investigate related internal hosts
+- Search firewall logs
+- Search SIEM for the IOC
+- Check EDR alerts
+- Consider blocking after validation
+
+مهم:
+التوصيات تكون دفاعية فقط.
+
+9. INVESTIGATION HISTORY
+
+احفظ عمليات التحليل في SQLite.
+
+Database tables مثل:
+
+investigations
+iocs
+threat_results
+risk_assessments
+
+خزن:
+- target
+- type
+- timestamp
+- score
+- verdict
+
+اعمل صفحة History.
+
+10. DASHBOARD
+
+اعمل Dashboard بسيطة واحترافية.
+
+تعرض:
+Total Investigations
+High Risk
+Critical
+Medium
+Low
+
+Recent Investigations
+
+Top suspicious IOCs
+
+Risk distribution
+
+استخدم CSS نظيف بدون frameworks في النسخة الأولى.
+
+11. API DESIGN
+
+أنشئ REST API endpoints واضحة:
+
+POST /api/analyze/ip
+POST /api/analyze/domain
+POST /api/analyze/url
+POST /api/analyze/ioc
+POST /api/analyze/log
+POST /api/subnet/calculate
+GET /api/investigations
+GET /api/investigations/{id}
+
+استخدم Pydantic models للتحقق من input.
+
+12. SECURITY
+
+طبّق:
+- Input validation
+- API keys في .env
+- Timeout لكل external API request
+- Error handling
+- Rate-limit awareness
+- لا تسجل API keys في logs
+- لا تحفظ secrets في database
+- لا تنفذ أي user input
+- لا تعمل arbitrary command execution
+- لا تعمل SSRF
+
+بالنسبة لتحليل URLs:
+لا تقوم بزيارة URLs بشكل مباشر من السيرفر بدون حماية.
+ابدأ بتحليل parsing + reputation + DNS فقط.
+أي HTTP fetching يجب أن يكون مع SSRF protection صارم أو اتركه خارج النسخة الأولى.
+
+13. ERROR HANDLING
+
+إذا VirusTotal unavailable:
+لا ينهار البرنامج.
+
+إذا AbuseIPDB unavailable:
+استمر بباقي التحليل.
+
+إذا DNS lookup فشل:
+اعرض:
+"No DNS information available"
+
+إذا IP invalid:
+اعرض validation error واضح.
+
+14. PROJECT STRUCTURE
+
+استخدم structure احترافي مثل:
+
+cyberip-analyzer/
+│
+├── backend/
+│   ├── app/
+│   │   ├── main.py
+│   │   ├── api/
+│   │   ├── services/
+│   │   ├── models/
+│   │   ├── schemas/
+│   │   ├── core/
+│   │   └── utils/
+│   └── tests/
+│
+├── frontend/
+│   ├── index.html
+│   ├── css/
+│   └── js/
+│
+├── .env.example
+├── requirements.txt
+├── README.md
+└── docker-compose.yml
+
+15. CODE QUALITY
+
+اكتب code واضح وليس spaghetti code.
+
+قسّم المشروع إلى services:
+
+IPService
+DNSService
+VirusTotalService
+AbuseIPDBService
+ASNService
+IOCExtractor
+RiskEngine
+ReportService
+
+كل service يكون مسؤولًا عن وظيفة محددة.
+
+استخدم type hints.
+
+اكتب docstrings للأجزاء المهمة.
+
+لا تكرر الكود.
+
+16. TESTING
+
+اكتب tests لـ:
+
+IP validation
+IPv4/IPv6
+Private/Public detection
+Class detection
+Subnet calculations
+Network ID
+Broadcast
+First/Last host
+IOC extraction
+Risk scoring
+
+اعمل mock للـexternal APIs.
+
+لا تجعل tests تعتمد على VirusTotal أو AbuseIPDB الحقيقيين.
+
+17. DOCUMENTATION
+
+اكتب README يشرح:
+
+Project overview
+Architecture
+Features
+Installation
+Environment variables
+API keys setup
+How to run
+How to use
+API endpoints
+Risk scoring methodology
+Security considerations
+Limitations
+Future improvements
+
+أضف قسم:
+
+"CyberOps Concepts Demonstrated"
+
+وفيه:
+- IOC
+- Threat Intelligence
+- DNS
+- IP addressing
+- CIDR
+- Network analysis
+- Risk assessment
+- Log analysis
+- API integration
+
+18. IMPORTANT LIMITATIONS
+
+المشروع لا يدعي أنه:
+- SIEM
+- EDR
+- IDS
+- Malware sandbox
+
+هو:
+"Mini SOC Investigation and Threat Intelligence Tool"
+
+ولا تستخدم لغة تؤكد أن IP malicious بشكل قطعي اعتمادًا على مصدر واحد.
+
+19. DEVELOPMENT METHOD
+
+لا تكتب المشروع كله في ملف واحد.
+
+ابدأ بالـbackend والـcore services أولًا.
+
+بعد كل مرحلة:
+1. اشرح ما تم بناؤه.
+2. أعطني الملفات التي تغيرت.
+3. أعطني طريقة التشغيل.
+4. أعطني tests.
+5. تأكد أن الكود يعمل قبل الانتقال للمرحلة التالية.
+
+ابدأ الآن بالمرحلة الأولى فقط:
+
+Phase 1:
+- Project structure
+- FastAPI setup
+- IP analyzer
+- Subnet calculator
+- Basic frontend
+- Tests
+
+ولا تنتقل إلى VirusTotal أو AbuseIPDB حتى تعمل Phase 1 بشكل صحيح.
+```
+
+**نصيحتي المهمة:** استخدم الـPrompt ده مع AI coding agent، وخليه يبني **Phase 1 ثم تختبرها بنفسك**. بعد كده Phase 2 وهكذا. ده هيخليك فاهم المشروع فعلًا وقت التسليم، بدل ما يبقى عندك 3000 سطر كود ومش عارف تشرح منهم 100.

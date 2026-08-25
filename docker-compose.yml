@@ -1,0 +1,19 @@
+services:
+  cyberip-analyzer:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    ports:
+      - "8000:8000"
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      DB_PATH: /data/cyberip.db
+    volumes:
+      - cyberip-data:/data
+    restart: unless-stopped
+
+volumes:
+  cyberip-data:
+
